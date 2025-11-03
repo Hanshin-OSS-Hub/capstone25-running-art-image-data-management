@@ -11,8 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Objects;
-
 @Service
 @RequiredArgsConstructor
 public class RunnerService {
@@ -25,7 +23,7 @@ public class RunnerService {
         if (runnerQueryRepository.existsByKakaoId(request.kakaoId())) {
             throw new BusinessException(ErrorMessage.DUPLICATE_KAKAO_ID);
         }
-        return runnerCommandRepository.save(request);
+        return runnerCommandRepository.createRunner(request);
     }
 
     @Transactional(readOnly = true)

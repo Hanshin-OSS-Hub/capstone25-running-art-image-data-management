@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class RunnerCommandRepository {
     private final RunnerJpaRepository runnerJpaRepository;
 
-    public Long save(RunnerCreateRequest request) {
+    public Long createRunner(RunnerCreateRequest request) {
         Runner runner = Runner.builder()
                 .kakaoId(request.kakaoId())
                 .name(request.name())
