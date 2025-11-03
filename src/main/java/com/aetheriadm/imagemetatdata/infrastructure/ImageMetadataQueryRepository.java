@@ -1,7 +1,5 @@
 package com.aetheriadm.imagemetatdata.infrastructure;
 
-import com.aetheriadm.common.exception.BusinessException;
-import com.aetheriadm.common.exception.dto.ErrorMessage;
 import com.aetheriadm.imagemetatdata.domain.ImageMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -19,12 +17,7 @@ public class ImageMetadataQueryRepository {
 
     @Transactional(readOnly = true)
     public ImageMetadata retrieveById(Long imageMetadataId) {
-        return imageMetadataJpaRepository.findById(imageMetadataId)
-                .orElseThrow(() -> new BusinessException(
-                                ErrorMessage.NOT_FOUND_IMAGE_METADATA,
-                                String.format("요청한 이미지 메타데이터(%d)를 찾지 못했습니다.", imageMetadataId)
-                        )
-                );
+        return imageMetadataJpaRepository.findById(imageMetadataId).orElse(null);
     }
 
     @Transactional(readOnly = true)
