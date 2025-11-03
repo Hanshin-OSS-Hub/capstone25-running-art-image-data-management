@@ -21,7 +21,7 @@ public class BusinessExceptionHandler {
 
         log.error("[ERROR] BusinessException -> {}", errorMessage.getMessage());
 
-        return ErrorResponseDto.of(errorMessage, errorMessage.getMessage());
+        return ErrorResponseDto.of(errorMessage, e.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -42,8 +42,7 @@ public class BusinessExceptionHandler {
                 ? ErrorMessage.INVALID_REQUEST_PARAMETER.getMessage()
                 : combinedMessage;
 
-
-        log.error("[ERROR] MethodArgumentNotValidException -> {}", finalMessage);
+        log.error("[WARN] MethodArgumentNotValidException -> {}", finalMessage);
 
         return ErrorResponseDto.of(ErrorMessage.INVALID_REQUEST_PARAMETER, finalMessage);
     }
