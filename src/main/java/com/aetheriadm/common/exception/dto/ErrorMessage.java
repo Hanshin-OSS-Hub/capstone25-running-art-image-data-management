@@ -20,7 +20,7 @@ public enum ErrorMessage {
      * [400 BAD_REQUEST]
      * {@code @Valid} 또는 @Validated 실패, 필수 파라미터 누락, 잘못된 메서드 인자 등
      */
-    INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON_001", "잘못된 요청 파라미터 입니다."),
+    INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON_001", "잘못된 요청 파라미터입니다."),
 
     /**
      * [400 BAD_REQUEST]
