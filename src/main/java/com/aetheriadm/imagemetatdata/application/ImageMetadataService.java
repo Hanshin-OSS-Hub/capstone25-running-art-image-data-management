@@ -22,6 +22,7 @@ public class ImageMetadataService {
     private final ImageMetadataCommandRepository imageMetadataCommandRepository;
     private final ImageMetadataQueryRepository imageMetadataQueryRepository;
 
+    @Transactional
     public Long createImageMetadata(Long runnerId, ImageMetadataCreateRequest request) {
         return imageMetadataCommandRepository.save(runnerId, request);
     }

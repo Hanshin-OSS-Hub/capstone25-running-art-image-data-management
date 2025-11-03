@@ -1,6 +1,7 @@
 package com.aetheriadm.imagemetatdata.interfaces.web;
 
 import com.aetheriadm.imagemetatdata.application.ImageMetadataService;
+import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataCreateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataUpdateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.response.ImageMetadataResponse;
 import jakarta.validation.Valid;
@@ -16,6 +17,17 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImageMetadataController {
     private final ImageMetadataService imageMetadataService;
+
+    @PostMapping
+    public ResponseEntity<Void> createImageMetadata(
+            Long runnerid,
+            @RequestBody ImageMetadataCreateRequest request
+    ) {
+        imageMetadataService.createImageMetadata(runnerid, request);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .build();
+    }
 
     @GetMapping("/{imageMetadataId}")
     public ResponseEntity<ImageMetadataResponse> retrieveImageMetadata(
