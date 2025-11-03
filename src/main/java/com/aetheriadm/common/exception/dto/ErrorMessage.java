@@ -24,6 +24,8 @@ public enum ErrorMessage {
     // IMAGE_METADATA
     NOT_FOUND_IMAGE_METADATA(HttpStatus.NOT_FOUND, "IMAGE_METADATA_001", "이미지 메타데이터를 찾을 수 없습니다."),
     FORBIDDEN_IMAGE_METADATA(HttpStatus.FORBIDDEN, "IMAGE_METADATA_002", "이미지 메타데이터에 대한 권한이 없습니다."),
+
+    NOT_FOUND_KAKAO_TOKEN(HttpStatus.NOT_FOUND, "KAKAO_TOKEN_001", "카카오 토큰을 찾을 수 없습니다.")
     ;
 
 
