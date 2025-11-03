@@ -22,10 +22,6 @@ public class KakaoTokenCommandRepository {
         return kakaoTokenJpaRepository.save(kakaoToken).getId();
     }
 
-    public Boolean existById(Long runnerId) {
-        return kakaoTokenJpaRepository.existsByRunnerId(runnerId);
-    }
-
     public void update(KakaoToken kakaoToken, String accessToken, String refreshToken) {
         kakaoToken.update(accessToken, refreshToken);
     }
