@@ -14,6 +14,10 @@ import java.util.Optional;
 public class RunnerQueryRepository {
     private final RunnerJpaRepository runnerJpaRepository;
 
+    public Boolean existsById(Long runnerId) {
+        return runnerJpaRepository.existsById(runnerId);
+    }
+
     public Boolean existsByKakaoId(Long kakaoId) {
         return runnerJpaRepository.existByKakaoId(kakaoId);
     }

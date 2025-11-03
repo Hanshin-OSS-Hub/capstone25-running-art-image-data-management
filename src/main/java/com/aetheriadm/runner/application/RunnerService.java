@@ -41,16 +41,10 @@ public class RunnerService {
 
     @Transactional
     public void deleteRunner(Long runnerId) {
-        Runner runner = runnerQueryRepository.retrieveById(runnerId)
-                .orElseThrow(() -> new BusinessException(
-                                ErrorMessage.NOT_FOUND_RUNNER,
-                                String.format("요청한 러너(%d)를 찾지 못했습니다.", runnerId)
-                        )
-                );
-        if (!Objects.equals(runner.getId(), runnerId)) {
+        if(runnerQueryRepository.existsById(runnerId)) {
             throw new BusinessException(
-                    ErrorMessage.FORBIDDEN_RUNNER,
-                    String.format("요청한 러너(%d)가 아니라 삭제할 수 없습니다.", runnerId)
+                    ErrorMessage.NOT_FOUND_RUNNER,
+                    String.format("요청한 러너(%d)를 찾지 못했습니다.", runnerId)
             );
         }
 
