@@ -1,5 +1,8 @@
 package com.aetheriadm.runner.interfaces.dto.request;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+
 /**
  * 새로운 사용자를 생성하기 위한 요청 DTO (Data Transfer Object)입니다.
  *
@@ -10,7 +13,10 @@ package com.aetheriadm.runner.interfaces.dto.request;
  * @param name 사용자가 사용할 이름 또는 닉네임입니다.
  */
 public record RunnerCreateRequest(
+        @NotNull
         Long kakaoId,
+
+        @NotBlank
         String name
 ) {
 }
