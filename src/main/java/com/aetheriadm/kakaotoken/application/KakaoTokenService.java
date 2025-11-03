@@ -18,17 +18,14 @@ public class KakaoTokenService {
 
     @Transactional
     public Long createKakaoToken(Long runnerId, String accessToken, String refreshToken) {
-        if (kakaoTokenQueryRepository.existById(runnerId)) {
-            KakaoToken kakaoToken = kakaoTokenQueryRepository.retrieveByRunnerId(runnerId).orElseThrow(() ->
-                    new BusinessException(
-                            ErrorMessage.NOT_FOUND_KAKAO_TOKEN,
-                            String.format("사용자(%d)의 토큰을 찾지 못했습니다.", runnerId)
-                    )
-            );
-            kakaoTokenCommandRepository.update(kakaoToken, accessToken, refreshToken);
-        }
-
-        return kakaoTokenCommandRepository.createKakaoToken(runnerId, accessToken, refreshToken);
+        return kakaoTokenQueryRepository.retrieveByRunnerId(runnerId)
+                .map(existing -> {
+                    kakaoTokenCommandRepository.update(existing, accessToken, refreshToken);
+                    return existing.getId();
+                })
+                .orElseGet(() ->
+                        kakaoTokenCommandRepository.createKakaoToken(runnerId, accessToken, refreshToken)
+                );
     }
 
     @Transactional(readOnly = true)
