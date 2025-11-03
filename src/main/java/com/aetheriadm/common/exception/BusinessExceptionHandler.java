@@ -32,8 +32,12 @@ public class BusinessExceptionHandler {
         // 4xx, 5xx 등 예측된 비즈니스 예외는 WARN 레벨로 기록합니다.
         log.warn("[WARN] BusinessException -> {}", errorMessage.getMessage());
 
-        // e.getMessage()에 동적 메시지가 포함될 수 있으므로, ErrorResponseDto.of 오버로드를 사용합니다.
-        return ErrorResponseDto.of(errorMessage, e.getMessage());
+        // 추가 상세 메시지가 있는 경우에만 포함합니다.
+        String detail = e.getMessage();
+        if (detail != null && !detail.equals(errorMessage.getMessage())) {
+            return ErrorResponseDto.of(errorMessage, detail);
+        }
+        return ErrorResponseDto.of(errorMessage);
     }
 
     /**
@@ -72,13 +76,16 @@ public class BusinessExceptionHandler {
      * (e.g., @RequestParam, @PathVariable)
      */
     @ExceptionHandler(ConstraintViolationException.class)
-    protected ResponseEntity<ErrorResponseDto> handleConstraintViolationException(ConstraintViolationException e) {
+    public ResponseEntity<ErrorResponseDto> handleConstraintViolationException(ConstraintViolationException e) {
 
         String detailedErrorMessage = e.getConstraintViolations().stream()
                 .map(violation -> {
-                    // "methodName.parameterName" -> "parameterName"
-                    String path = violation.getPropertyPath().toString();
-                    String parameterName = path.substring(path.lastIndexOf('.') + 1);
+                    // Path API를 사용하여 마지막 노드 추출
+                    var pathIterator = violation.getPropertyPath().iterator();
+                    String parameterName = "";
+                    while (pathIterator.hasNext()) {
+                        parameterName = pathIterator.next().getName();
+                    }
                     return String.format("[%s]: %s", parameterName, violation.getMessage());
                 })
                 .collect(Collectors.joining(", "));
@@ -92,7 +99,7 @@ public class BusinessExceptionHandler {
      * 필수 요청 파라미터(@RequestParam)가 누락된 경우
      */
     @ExceptionHandler(MissingServletRequestParameterException.class)
-    protected ResponseEntity<ErrorResponseDto> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
+    public ResponseEntity<ErrorResponseDto> handleMissingServletRequestParameterException(MissingServletRequestParameterException e) {
 
         String detailedErrorMessage = String.format("필수 파라미터 [%s](이)가 누락되었습니다.", e.getParameterName());
 
@@ -105,19 +112,19 @@ public class BusinessExceptionHandler {
      * 잘못된 JSON 형식을 요청한 경우
      */
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    protected ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+    public ResponseEntity<ErrorResponseDto> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
 
         // e.getMessage()는 너무 길고 복잡하며 내부 구현을 노출할 수 있으므로, ErrorMessage의 기본 메시지를 사용합니다.
         log.warn("[WARN] HttpMessageNotReadableException -> {}", e.getMostSpecificCause().getMessage());
 
-        return ErrorResponseDto.of(ErrorMessage.MALFORMED_JSON_REQUEST, e.getMessage());
+        return ErrorResponseDto.of(ErrorMessage.MALFORMED_JSON_REQUEST);
     }
 
     /**
      * 그 외 모든 예외 (Catch-all 500)
      */
     @ExceptionHandler(Exception.class)
-    protected ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+    public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
         // [중요] 처리되지 않은 500번대 서버 오류는 ERROR 레벨로 기록하고,
         // 클라이언트에게는 상세한 예외 내용을 노출하지 않습니다.
         log.error("[ERROR] Unhandled Exception", e); // 스택 트레이스 전체를 기록
