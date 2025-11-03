@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 /**
- * 데이터베이스의 {@code image_metadata} 테이블과 매핑되는 R2DBC 엔티티 클래스입니다.
+ * 데이터베이스의 {@code image_metadata} 테이블과 매핑되는 JPA 엔티티 클래스입니다.
  *
  * <p>이 엔티티는 사용자가 생성한 **러닝 아트 이미지의 메타데이터 정보**를 저장합니다.</p>
  */
