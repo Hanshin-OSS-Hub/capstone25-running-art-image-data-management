@@ -20,17 +20,18 @@ public class BusinessExceptionHandler {
 
         log.error("[ERROR] BusinessException -> {}", errorMessage.getMessage());
 
-        return ErrorResponseDto.of(errorMessage);
+        return ErrorResponseDto.of(errorMessage, errorMessage.getMessage());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String detailedErrorMessage = e.getBindingResult().getFieldErrors().stream()
-                .map(error -> error.getField() + ": " + error.getDefaultMessage())
+                .map(error -> String.format("[%s]: %s", error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.joining(", "));
+
 
         log.error("[ERROR] MethodArgumentNotValidException -> {}", detailedErrorMessage);
 
-        return ErrorResponseDto.of(ErrorMessage.INVALID_REQUEST_PARAMETER);
+        return ErrorResponseDto.of(ErrorMessage.INVALID_REQUEST_PARAMETER, detailedErrorMessage);
     }
 }

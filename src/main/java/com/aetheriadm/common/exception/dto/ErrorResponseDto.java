@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * 에러가 발생했을 때 GlobalExceptionHandler에서 응답에 사용하는 DTO
  *
  * @author duskafka
- * */
+ */
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class ErrorResponseDto {
@@ -19,12 +19,12 @@ public class ErrorResponseDto {
     private final String message;
     private final LocalDateTime serverDateTime;
 
-    public static ResponseEntity<ErrorResponseDto> of(ErrorMessage message) {
+    public static ResponseEntity<ErrorResponseDto> of(ErrorMessage message, String detailMessage) {
         return ResponseEntity
                 .status(message.getStatus())
                 .body(new ErrorResponseDto(
-                        message.getStatus().toString(),
-                        message.getMessage(),
+                        message.name(),
+                        String.format("%s (%s)", message.getMessage(), detailMessage),
                         LocalDateTime.now())
                 );
     }
