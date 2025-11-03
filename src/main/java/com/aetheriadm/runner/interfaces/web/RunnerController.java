@@ -22,13 +22,13 @@ public class RunnerController {
     }
 
     @GetMapping
-    public ResponseEntity<RunnerResponse> retrieveRunner(Long runnerId) {
+    public ResponseEntity<RunnerResponse> retrieveRunner(Long runnerId) { // TODO JWT 인증 기능 구현
         RunnerResponse runnerResponse = runnerService.retrieveRunner(runnerId);
         return ResponseEntity.status(HttpStatus.OK).body(runnerResponse);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteRunner(Long runnerId) {
+    public ResponseEntity<Void> deleteRunner(Long runnerId) { // TODO JWT 인증 기능 구현
         runnerService.deleteRunner(runnerId);
         return ResponseEntity.noContent().build();
     }
