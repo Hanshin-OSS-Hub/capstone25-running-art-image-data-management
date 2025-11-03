@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class BusinessExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
-    protected ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
+    public ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
         var errorMessage = e.getErrorMessage();
 
         log.error("[ERROR] BusinessException -> {}", errorMessage.getMessage());
@@ -24,7 +24,7 @@ public class BusinessExceptionHandler {
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    protected ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         String detailedErrorMessage = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> String.format("[%s]: %s", error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.joining(", "));
