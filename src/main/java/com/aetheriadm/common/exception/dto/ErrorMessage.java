@@ -16,14 +16,28 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public enum ErrorMessage {
-    //Server
-    INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "잘못된 요청 입니다."),
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "예기치 못한 에러가 발생했습니다."),
+    /**
+     * [400 BAD_REQUEST]
+     * {@code @Valid} 또는 @Validated 실패, 필수 파라미터 누락, 잘못된 메서드 인자 등
+     */
+    INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON_001", "잘못된 요청 파라미터 입니다."),
 
+    /**
+     * [400 BAD_REQUEST]
+     * JSON 파싱 실패 (e.g., 형식이 맞지 않는 JSON 요청)
+     */
+    MALFORMED_JSON_REQUEST(HttpStatus.BAD_REQUEST, "COMMON_002", "잘못된 형식의 JSON 요청입니다."),
+
+    /**
+     * [500 INTERNAL_SERVER_ERROR]
+     * 처리되지 않은 모든 서버 내부 예외
+     */
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_500", "서버 내부 오류가 발생했습니다.");
 
     ;
 
 
     private final HttpStatus status;
+    private final String code;
     private final String message;
 }

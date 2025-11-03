@@ -28,4 +28,14 @@ public class ErrorResponseDto {
                         LocalDateTime.now())
                 );
     }
+
+    public static ResponseEntity<ErrorResponseDto> of(ErrorMessage message) {
+        return ResponseEntity
+                .status(message.getStatus())
+                .body(new ErrorResponseDto(
+                        message.name(),
+                        message.getMessage(),
+                        LocalDateTime.now())
+                );
+    }
 }
