@@ -118,7 +118,7 @@ public class ImageMetadata {
         return ImageMetadata.builder()
                 .runnerId(runnerId)
                 .imagePath(imagePath)
-                .title(location + " " + shape.) // 초기 제목 설정
+                .title(location + " " + shape) // 초기 제목 설정
                 .description("설명을 추가해주세요")     // 기본 설명 설정
                 .location(location)
                 .shape(shape)
