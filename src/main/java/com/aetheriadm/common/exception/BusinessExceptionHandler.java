@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Slf4j
 @RestControllerAdvice
@@ -29,9 +30,21 @@ public class BusinessExceptionHandler {
                 .map(error -> String.format("[%s]: %s", error.getField(), error.getDefaultMessage()))
                 .collect(Collectors.joining(", "));
 
+        String globalErrorMessage = e.getBindingResult().getGlobalErrors().stream()
+                .map(error -> String.format("[%s]: %s", error.getObjectName(), error.getDefaultMessage()))
+                .collect(Collectors.joining(", "));
 
-        log.error("[ERROR] MethodArgumentNotValidException -> {}", detailedErrorMessage);
+        String combinedMessage = Stream.of(detailedErrorMessage, globalErrorMessage)
+                .filter(s -> !s.isEmpty())
+                .collect(Collectors.joining("; "));
 
-        return ErrorResponseDto.of(ErrorMessage.INVALID_REQUEST_PARAMETER, detailedErrorMessage);
+        String finalMessage = combinedMessage.isEmpty()
+                ? ErrorMessage.INVALID_REQUEST_PARAMETER.getMessage()
+                : combinedMessage;
+
+
+        log.error("[ERROR] MethodArgumentNotValidException -> {}", finalMessage);
+
+        return ErrorResponseDto.of(ErrorMessage.INVALID_REQUEST_PARAMETER, finalMessage);
     }
 }
