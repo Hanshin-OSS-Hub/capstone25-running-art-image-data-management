@@ -1,0 +1,32 @@
+spring:
+  # 데이터베이스 연결 설정
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver       # 사용하는 데이터베이스 드라이버
+    url: ${DATABASE_URL} # 데이터베이스 URL
+    username: ${DATABASE_USERNAME}                               # 데이터베이스 유저 이름
+    password: ${DATABASE_PASSWORD}                                 # 데이터베이스 유저의 비밀번호
+  # 스프링 JPA 설정
+  jpa:
+    hibernate:
+      ddl-auto: create                               # DB 테이블 생성 전략 설정
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect # MySQL 8.x용 Dialect
+        format_sql: true                             # 쿼리 로그를 정렬해서 출력한다
+        show_sql: true                               # 실행되는 SQL 쿼리를 콘솔에 출력한다. 프로덕션 환경에서는 false로 변경해야 함.
+    defer-datasource-initialization: true            # SQL 스크립트 초기화를 JPA 앤티티 매니저 초기화 이후로 지연시킨다. 이는 data.sql이 있어서 필요하다.
+  sql:
+    init:
+      mode: always                                    # SQL 초기화 스크립트를 언제 실행할지 결정한다.
+
+# Swagger 사용 설정
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html                      # 스웨거 접근 경로
+  api-docs:
+    path: /api-docs                             # openAPI 접근 경로. default 값은 /v3/api-docs 이다.
+  show-actuator: true                           # Spring Actuator의 endpoint까지 보여줄 것인지?
+  default-consumes-media-type: application/json # request media type 의 기본 값
+  default-produces-media-type: application/json # response media type 의 기본 값
+  paths-to-match:                               # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
+    - /api/v1/**
