@@ -5,7 +5,6 @@ import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataCreateR
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 

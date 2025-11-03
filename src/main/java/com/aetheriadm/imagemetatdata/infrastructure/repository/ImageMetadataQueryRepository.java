@@ -3,7 +3,6 @@ package com.aetheriadm.imagemetatdata.infrastructure.repository;
 import com.aetheriadm.imagemetatdata.domain.ImageMetadata;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
