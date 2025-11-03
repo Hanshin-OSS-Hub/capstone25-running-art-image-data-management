@@ -64,13 +64,27 @@ public class ImageMetadataService {
         imageMetadataCommandRepository.delete(imageMetadataId);
     }
 
-    public ImageMetadataResponse retrieveImageMetadata(Long imageMetadataId) {
+    public ImageMetadataResponse retrieveImageMetadata(Long runnerId, Long imageMetadataId) {
         ImageMetadata imageMetadata = Optional.ofNullable(imageMetadataQueryRepository.retrieveById(imageMetadataId))
                 .orElseThrow(() -> new BusinessException(
                                 ErrorMessage.NOT_FOUND_IMAGE_METADATA,
                                 String.format("요청한 이미지 메타데이터(%d)를 찾지 못했습니다.", imageMetadataId)
                         )
                 );
+
+        // 공유가 허가되었다면 ID값을 검사하지 않고 결과를 응답한다.
+        if (imageMetadata.getShared()) {
+            return ImageMetadataResponse.from(imageMetadata);
+        }
+
+        // 만약 공유되지 않고 소유자가 아니라면 예외를 발생시킨다.
+        if (!runnerId.equals(imageMetadata.getRunnerId())) {
+            throw new BusinessException(
+                    ErrorMessage.FORBIDDEN_IMAGE_METADATA,
+                    String.format("요청한 이미지 메타데이터(%d)는 공유되지 않은 이미지입니다. 따라서 조회할 수 없습니다.", imageMetadataId)
+            );
+        }
+
         return ImageMetadataResponse.from(imageMetadata);
     }
 
