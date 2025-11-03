@@ -65,4 +65,9 @@ public class KakaoToken {
                 .refreshToken(refreshToken)
                 .build();
     }
+
+    public void update(String accessToken, String refreshToken) {
+        this.accessToken = accessToken;
+        this.refreshToken = refreshToken;
+    }
 }
