@@ -37,3 +37,29 @@ out/
 
 ### VS Code ###
 .vscode/
+/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+/.gradle/buildOutputCleanup/cache.properties
+/.gradle/8.8/checksums/checksums.lock
+/.gradle/8.14.3/checksums/checksums.lock
+/.gradle/8.8/executionHistory/executionHistory.bin
+/.gradle/8.8/executionHistory/executionHistory.lock
+/.gradle/8.14.3/executionHistory/executionHistory.lock
+/.gradle/file-system.probe
+/.gradle/8.8/fileHashes/fileHashes.bin
+/.gradle/8.14.3/fileHashes/fileHashes.bin
+/.gradle/8.8/fileHashes/fileHashes.lock
+/.gradle/8.14.3/fileHashes/fileHashes.lock
+/.gradle/8.8/dependencies-accessors/gc.properties
+/.gradle/8.8/gc.properties
+/.gradle/8.14.3/gc.properties
+/.gradle/vcs-1/gc.properties
+/gradle/wrapper/gradle-wrapper.jar
+/gradle/wrapper/gradle-wrapper.properties
+/.gradle/8.8/fileChanges/last-build.bin
+/.gradle/8.14.3/fileChanges/last-build.bin
+/.gradle/8.8/checksums/md5-checksums.bin
+/.gradle/8.14.3/checksums/md5-checksums.bin
+/.gradle/buildOutputCleanup/outputFiles.bin
+/.gradle/8.8/fileHashes/resourceHashesCache.bin
+/.gradle/8.8/checksums/sha1-checksums.bin
+/.gradle/8.14.3/checksums/sha1-checksums.bin
