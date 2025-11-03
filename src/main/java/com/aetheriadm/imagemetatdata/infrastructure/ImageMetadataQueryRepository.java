@@ -1,4 +1,4 @@
-package com.aetheriadm.imagemetatdata.infrastructure.repository;
+package com.aetheriadm.imagemetatdata.infrastructure;
 
 import com.aetheriadm.imagemetatdata.domain.ImageMetadata;
 import lombok.RequiredArgsConstructor;

@@ -1,10 +1,10 @@
-package com.aetheriadm.imagemetatdata.infrastructure.service;
+package com.aetheriadm.imagemetatdata.application;
 
 import com.aetheriadm.common.exception.BusinessException;
 import com.aetheriadm.common.exception.dto.ErrorMessage;
 import com.aetheriadm.imagemetatdata.domain.ImageMetadata;
-import com.aetheriadm.imagemetatdata.infrastructure.repository.ImageMetadataCommandRepository;
-import com.aetheriadm.imagemetatdata.infrastructure.repository.ImageMetadataQueryRepository;
+import com.aetheriadm.imagemetatdata.infrastructure.ImageMetadataCommandRepository;
+import com.aetheriadm.imagemetatdata.infrastructure.ImageMetadataQueryRepository;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataCreateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataUpdateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.response.ImageMetadataResponse;

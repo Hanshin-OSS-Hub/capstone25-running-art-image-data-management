@@ -1,6 +1,6 @@
 package com.aetheriadm.imagemetatdata.interfaces.web;
 
-import com.aetheriadm.imagemetatdata.infrastructure.service.ImageMetadataService;
+import com.aetheriadm.imagemetatdata.application.ImageMetadataService;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataUpdateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.response.ImageMetadataResponse;
 import lombok.RequiredArgsConstructor;
