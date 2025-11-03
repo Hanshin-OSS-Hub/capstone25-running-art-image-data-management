@@ -1,4 +1,4 @@
-package com.aetheriadm.imagemetatdata.infrastructure;
+package com.aetheriadm.imagemetatdata.infrastructure.repository;
 
 import com.aetheriadm.imagemetatdata.domain.ImageMetadata;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataCreateRequest;
