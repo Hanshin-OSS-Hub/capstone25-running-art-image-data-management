@@ -19,7 +19,7 @@ public class RunnerQueryRepository {
     }
 
     public Boolean existsByKakaoId(Long kakaoId) {
-        return runnerJpaRepository.existByKakaoId(kakaoId);
+        return runnerJpaRepository.existsByKakaoId(kakaoId);
     }
 
     public Optional<Runner> retrieveById(Long runnerId) {

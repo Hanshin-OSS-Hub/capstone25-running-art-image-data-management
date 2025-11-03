@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface RunnerJpaRepository extends JpaRepository<Runner, Long> {
-    Boolean existByKakaoId(Long kakaoId);
+    Boolean existsByKakaoId(Long kakaoId);
     void deleteByKakaoId(Long kakaoId);
 }
