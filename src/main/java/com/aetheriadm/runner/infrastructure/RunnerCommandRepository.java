@@ -15,7 +15,10 @@ public class RunnerCommandRepository {
     private final RunnerJpaRepository runnerJpaRepository;
 
     public Long save(RunnerCreateRequest request) {
-        Runner runner = Runner.builder().build();
+        Runner runner = Runner.builder()
+                .kakaoId(request.kakaoId())
+                .name(request.name())
+                .build();
         return runnerJpaRepository.save(runner).getId();
     }
 
