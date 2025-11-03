@@ -18,7 +18,7 @@ public class KakaoTokenQueryRepository {
         return kakaoTokenJpaRepository.findByRunnerId(runnerId);
     }
 
-    public Boolean existById(Long runnerId) {
+    public Boolean existsByRunnerId(Long runnerId) {
         return kakaoTokenJpaRepository.existsByRunnerId(runnerId);
     }
 }
