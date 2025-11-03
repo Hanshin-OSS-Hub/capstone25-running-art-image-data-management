@@ -3,6 +3,7 @@ package com.aetheriadm.runner.interfaces.web;
 import com.aetheriadm.runner.application.RunnerService;
 import com.aetheriadm.runner.interfaces.dto.request.RunnerCreateRequest;
 import com.aetheriadm.runner.interfaces.dto.response.RunnerResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,7 @@ public class RunnerController {
     private final RunnerService runnerService;
 
     @PostMapping
-    public ResponseEntity<Long> createRunner(@RequestBody RunnerCreateRequest request) {
+    public ResponseEntity<Long> createRunner(@Valid @RequestBody RunnerCreateRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(runnerService.createRunner(request));

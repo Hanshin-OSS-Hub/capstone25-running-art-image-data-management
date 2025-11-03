@@ -3,6 +3,7 @@ package com.aetheriadm.imagemetatdata.interfaces.web;
 import com.aetheriadm.imagemetatdata.application.ImageMetadataService;
 import com.aetheriadm.imagemetatdata.interfaces.dto.request.ImageMetadataUpdateRequest;
 import com.aetheriadm.imagemetatdata.interfaces.dto.response.ImageMetadataResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class ImageMetadataController {
     public ResponseEntity<Void> updateImageMetadata(
             Long runnerId, // TODO Spring Security JWT 로 인증 정보를 추출하여 가져오도록 구현해야함
             @PathVariable Long imageMetadataId,
-            @RequestBody ImageMetadataUpdateRequest request
+            @Valid @RequestBody ImageMetadataUpdateRequest request
     ) {
         imageMetadataService.updateImageMetadata(runnerId, imageMetadataId, request);
         return ResponseEntity

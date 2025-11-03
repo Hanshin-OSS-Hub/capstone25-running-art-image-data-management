@@ -3,6 +3,7 @@ package com.aetheriadm.kakaotoken.interfaces.web;
 import com.aetheriadm.kakaotoken.application.KakaoTokenService;
 import com.aetheriadm.kakaotoken.interfaces.dto.request.KakaoTokenCreateRequest;
 import com.aetheriadm.kakaotoken.interfaces.dto.response.KakaoTokenResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,7 @@ public class KakaoTokenController {
     @PostMapping
     public ResponseEntity<Void> createKakaoToken(
             Long runnerId, // TODO JWT 토큰에서 정보를 가져오도록 해야함
-            @RequestBody KakaoTokenCreateRequest request
+            @Valid @RequestBody KakaoTokenCreateRequest request
     ) {
         kakaoTokenService.createKakaoToken(runnerId, request.accessToken(), request.refreshToken());
         return ResponseEntity
