@@ -16,24 +16,14 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public enum ErrorMessage {
-    /**
-     * [400 BAD_REQUEST]
-     * {@code @Valid} 또는 @Validated 실패, 필수 파라미터 누락, 잘못된 메서드 인자 등
-     */
+    // SERVER
     INVALID_REQUEST_PARAMETER(HttpStatus.BAD_REQUEST, "COMMON_001", "잘못된 요청 파라미터입니다."),
-
-    /**
-     * [400 BAD_REQUEST]
-     * JSON 파싱 실패 (e.g., 형식이 맞지 않는 JSON 요청)
-     */
     MALFORMED_JSON_REQUEST(HttpStatus.BAD_REQUEST, "COMMON_002", "잘못된 형식의 JSON 요청입니다."),
+    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_500", "서버 내부 오류가 발생했습니다."),
 
-    /**
-     * [500 INTERNAL_SERVER_ERROR]
-     * 처리되지 않은 모든 서버 내부 예외
-     */
-    INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "COMMON_500", "서버 내부 오류가 발생했습니다.");
-
+    // IMAGE_METADATA
+    NOT_FOUND_IMAGE_METADATA(HttpStatus.NOT_FOUND, "IMAGE_METADATA_001", "이미지 메타데이터를 찾을 수 없습니다."),
+    FORBIDDEN_IMAGE_METADATA(HttpStatus.FORBIDDEN, "IMAGE_METADATA_002", "이미지 메타데이터에 대한 권한이 없습니다."),
     ;
 
 
