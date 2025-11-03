@@ -15,14 +15,12 @@ import java.util.List;
 public class ImageMetadataQueryRepository {
     private final ImageMetadataJpaRepository imageMetadataJpaRepository;
 
-    @Transactional(readOnly = true)
     public ImageMetadata retrieveById(Long imageMetadataId) {
         return imageMetadataJpaRepository.findById(imageMetadataId).orElse(null);
     }
 
-    @Transactional(readOnly = true)
     public List<ImageMetadata> retrieveAllByRunnerId(Long runnerId) {
-        return imageMetadataJpaRepository.findAll().stream()
+        return imageMetadataJpaRepository.findAllByRunnerId(runnerId).stream()
                 .toList();
     }
 }

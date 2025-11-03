@@ -64,6 +64,7 @@ public class ImageMetadataService {
         imageMetadataCommandRepository.delete(imageMetadataId);
     }
 
+    @Transactional(readOnly = true)
     public ImageMetadataResponse retrieveImageMetadata(Long runnerId, Long imageMetadataId) {
         ImageMetadata imageMetadata = Optional.ofNullable(imageMetadataQueryRepository.retrieveById(imageMetadataId))
                 .orElseThrow(() -> new BusinessException(
@@ -88,6 +89,7 @@ public class ImageMetadataService {
         return ImageMetadataResponse.from(imageMetadata);
     }
 
+    @Transactional(readOnly = true)
     public List<ImageMetadataResponse> retrieveAllImageMetadataByRunnerId(Long runnerId) {
         List<ImageMetadata> imageMetadata = imageMetadataQueryRepository.retrieveAllByRunnerId(runnerId);
         if (imageMetadata.isEmpty()) {

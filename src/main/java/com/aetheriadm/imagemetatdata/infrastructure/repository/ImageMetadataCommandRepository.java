@@ -18,7 +18,6 @@ import java.util.UUID;
 public class ImageMetadataCommandRepository {
     private final ImageMetadataJpaRepository imageMetadataJpaRepository;
 
-    @Transactional
     public Long save(Long runnerId, ImageMetadataCreateRequest request) {
         ImageMetadata entity = ImageMetadata.toEntity(
                 runnerId,
@@ -31,12 +30,10 @@ public class ImageMetadataCommandRepository {
         return imageMetadataJpaRepository.save(entity).getId();
     }
 
-    @Transactional
     public void update(ImageMetadata imageMetadata,  ImageMetadataUpdateRequest request) {
        imageMetadata.update(request.title(), request.description());
     }
 
-    @Transactional
     public void delete(Long imageMetadataId) {
         imageMetadataJpaRepository.deleteById(imageMetadataId);
     }
