@@ -14,7 +14,7 @@ import java.util.Optional;
 public class RunnerQueryRepository {
     private final RunnerJpaRepository runnerJpaRepository;
 
-    public Boolean existByKakaoId(Long kakaoId) {
+    public Boolean existsByKakaoId(Long kakaoId) {
         return runnerJpaRepository.existByKakaoId(kakaoId);
     }
 

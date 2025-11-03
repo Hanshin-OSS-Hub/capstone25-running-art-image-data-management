@@ -22,7 +22,7 @@ public class RunnerService {
 
     @Transactional
     public Long createRunner(RunnerCreateRequest request) {
-        if (runnerQueryRepository.existByKakaoId(request.kakaoId())) {
+        if (runnerQueryRepository.existsByKakaoId(request.kakaoId())) {
             throw new BusinessException(ErrorMessage.DUPLICATE_KAKAO_ID);
         }
         return runnerCommandRepository.save(request);
