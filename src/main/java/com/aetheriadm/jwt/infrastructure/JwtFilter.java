@@ -23,7 +23,7 @@ import java.io.IOException;
  * <li>애플리케이션은 무상태로 구성되었기 때문에 이 저장 정보는 한 스레드에서만 가지고 있는다</li>
  *
  * @author duskafka
- * */
+ */
 @Slf4j
 @Component
 public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해 동일한 로직을 수행하는 일반 필터
@@ -32,6 +32,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     private final JwtTokenResolver jwtTokenResolver;
     private final String ACCESS_TOKEN_HEADER = HttpHeaders.AUTHORIZATION;
     private final String BEARER_HEADER;
+    private final int BEARER_HEADER_LENGTH;
 
     public JwtFilter(
             JwtTokenValidator tokenValidator,
@@ -41,13 +42,14 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
         this.tokenValidator = tokenValidator;
         this.jwtTokenResolver = jwtTokenResolver;
         this.BEARER_HEADER = jwtProperties.bearerHeader();
+        this.BEARER_HEADER_LENGTH = BEARER_HEADER.length();
     }
 
     /**
      * 요청이 들어오면 헤더의 토큰을 검사하고 검사 후 SecurityContextHolder에 정보를 저장해준다.
      *
-     * @param request       토큰을 담고 있는 헤더를 가져오기 위해 사용
-     * */
+     * @param request 토큰을 담고 있는 헤더를 가져오기 위해 사용
+     */
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -67,7 +69,7 @@ public class JwtFilter extends OncePerRequestFilter { // 모든 요청에 대해
     private String resolveToken(HttpServletRequest request) {
         String bearer = request.getHeader(ACCESS_TOKEN_HEADER);
         if (bearer != null && bearer.startsWith(BEARER_HEADER)) {
-            return bearer.substring(BEARER_HEADER.length());
+            return bearer.substring(BEARER_HEADER_LENGTH);
         }
         return null;
     }
