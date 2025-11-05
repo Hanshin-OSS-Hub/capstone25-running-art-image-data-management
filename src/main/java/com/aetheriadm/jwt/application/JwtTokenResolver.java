@@ -1,8 +1,7 @@
-package com.aetheriadm.jwt.infrastructure;
+package com.aetheriadm.jwt.application;
 
 import com.aetheriadm.common.exception.BusinessException;
 import com.aetheriadm.common.exception.dto.ErrorMessage;
-import com.aetheriadm.jwt.application.JwtKeyManager;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -15,8 +14,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 /**
  * 이 컴포넌트는 미리 설정된 {@link JwtParser}를 사용하여 토큰을 검증 및 해독합니다.

@@ -1,6 +1,7 @@
 package com.aetheriadm.jwt.infrastructure;
 
 import com.aetheriadm.config.properties.JWTProperties;
+import com.aetheriadm.jwt.application.JwtTokenResolver;
 import com.aetheriadm.jwt.application.JwtTokenValidator;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
