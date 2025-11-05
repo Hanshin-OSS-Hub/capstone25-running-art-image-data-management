@@ -49,7 +49,13 @@ public class SecurityConfig {
 
             // 요청별 권한 설정
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("").permitAll()
+                    .requestMatchers(
+                            "/v3/api-docs/**",
+                            "/swagger-ui/**",
+                            "/swagger-ui.html",
+                            "/webjars/swagger-ui/**",
+                            "/api-docs/**"
+                    ).permitAll()
                     
                     // TODO: 여기에 다른 경로 규칙 추가 (예: /api/admin/** 은 'ADMIN' 권한 필요)
                     // .requestMatchers("/api/admin/**").hasRole("ADMIN")
