@@ -3,7 +3,6 @@ package com.aetheriadm.jwt.application;
 import com.aetheriadm.common.exception.BusinessException;
 import com.aetheriadm.common.exception.dto.ErrorMessage;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,22 +49,14 @@ public class JwtTokenResolver{
     /**
      * 주어진 JWT 토큰에서 사용자 고유 식별자(ID)를 추출합니다.
      *
-     * <p>사용자 ID는 토큰의 {@code Subject} 클레임에서 가져오며, 이를 {@code Long} 타입으로 변환합니다.</p>
+     * <p>사용자 ID는 토큰의 {@code Subject} 클레임에서 가져오며,</p>
      *
      * @param token 사용자 ID를 추출할 JWT 토큰 문자열입니다.
-     * @return 토큰에서 추출된 사용자 ID({@code Long})입니다.
+     * @return 토큰에서 추출된 사용자 ID({@code String})입니다.
      */
     // 토큰에서 사용자 ID 추출
     public String getIdFromToken(String token) {
-        String sub = claims(token).getSubject();
-        try {
-            return sub;
-        } catch (NumberFormatException e) {
-            throw new BusinessException(
-                    ErrorMessage.JWT_SUBJECT_IS_NOT_NUMBER,
-                    "JWT 토큰 값이 유효하지 않습니다."
-            );
-        }
+        return claims(token).getSubject();
     }
 
     /**
