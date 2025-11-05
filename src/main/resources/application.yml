@@ -30,3 +30,28 @@ springdoc:
   default-produces-media-type: application/json # response media type 의 기본 값
   paths-to-match:                               # 해당 패턴에 매칭되는 controller만 swagger-ui에 노출한다.
     - /api/v1/**
+
+# ===================================================================
+# JWT (JSON Web Token) 관련 설정
+# JWTProperties.java 레코드에 바인딩됩니다.
+# ===================================================================
+jwt:
+  # JWT 서명 비밀 키
+  #    - 반드시 Base64로 인코딩된 문자열이어야 합니다.
+  #    - HS256 알고리즘(권장) 사용 시 최소 32바이트(256비트) 이상이어야 합니다.
+  #    - [터미널에서 생성 예시]: openssl rand -base64 32
+  secret: ${JWT_SECRET}
+
+  # 액세스 토큰 유효 기간
+  #    (Duration 형식: h=시간, m=분, s=초)
+  #    (예: 1h = 1시간, 30m = 30분)
+  access-token-validity-in-hour: 15m
+
+  # 토큰 검증 시 허용할 시간 오차 (초 단위) (서버 간 시간 불일치 등을 대비)
+  allowed-clock-skew-seconds: 30
+
+  # 토큰 내부에 권한 정보를 저장할 클레임의 키 이름
+  authority-key: "roles"
+
+  # 액세스 토큰의 스키마 (접두사)
+  bearer-header: "Bearer "

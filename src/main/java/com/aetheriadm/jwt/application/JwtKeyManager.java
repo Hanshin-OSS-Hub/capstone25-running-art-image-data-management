@@ -1,0 +1,53 @@
+package com.aetheriadm.jwt.application;
+
+import com.aetheriadm.common.exception.BusinessException;
+import com.aetheriadm.common.exception.dto.ErrorMessage;
+import com.aetheriadm.config.properties.JWTProperties;
+import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import lombok.Getter;
+import org.springframework.stereotype.Component;
+
+import javax.crypto.SecretKey;
+
+@Getter
+@Component
+public class JwtKeyManager {
+    /** JWT 서명 및 유효성 검증에 사용되는 비밀 키입니다. */
+    private final SecretKey key;
+
+    /**
+     * {@code JwtKeyManager}의 생성자입니다.
+     *
+     * <p>주어진 {@code JWTProperties}로부터 비밀 문자열을 읽어와 Base64 디코딩하고,
+     * 보안 요구사항(최소 길이)을 검증한 후 {@link SecretKey}와 {@link JwtParser}를 초기화합니다.</p>
+     *
+     * @param jwtProperties JWT 관련 설정 값들을 담고 있는 프로퍼티 객체입니다.
+     * @throws BusinessException {@code jwt.secret}이 Base64 인코딩된 문자열이 아니거나
+     * HS256에 적합한 최소 길이(256비트, 32바이트)를 만족하지 못할 경우 발생합니다.
+     */
+    public JwtKeyManager(JWTProperties jwtProperties) {
+        final byte[] keyBytes;
+        try {
+            // Base64 인코딩된 비밀 키 문자열을 바이트 배열로 디코딩
+            keyBytes = Decoders.BASE64.decode(jwtProperties.secret());
+        } catch (IllegalArgumentException e) {
+            throw new BusinessException(
+                    ErrorMessage.INTERNAL_SERVER_ERROR,
+                    "jwt.secret은 Base64 인코딩된 문자열이어야 합니다."
+            );
+        }
+
+        // HS256 알고리즘의 최소 권장 길이인 256비트(32바이트) 검증
+        if (keyBytes.length < 32) {
+            throw new BusinessException(
+                    ErrorMessage.INTERNAL_SERVER_ERROR,
+                    "jwt.secret은 HS256에 적합한 최소 256비트(32바이트) 이상이어야 합니다."
+            );
+        }
+
+        // HMAC SHA 키 생성
+        this.key = Keys.hmacShaKeyFor(keyBytes);
+    }
+}
