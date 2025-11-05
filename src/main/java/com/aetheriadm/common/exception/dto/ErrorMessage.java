@@ -32,6 +32,10 @@ public enum ErrorMessage {
     DUPLICATE_KAKAO_ID(HttpStatus.BAD_REQUEST, "RUNNER_001", "이미 존재하는 카카오 ID입니다."),
     NOT_FOUND_RUNNER(HttpStatus.NOT_FOUND, "RUNNER_002", "사용자를 찾을 수 없습니다."),
     FORBIDDEN_RUNNER(HttpStatus.FORBIDDEN, "RUNNER_003", "사용자에 대한 권한이 없습니다."),
+
+    // JWT
+    JWT_SUBJECT_IS_NOT_NUMBER(HttpStatus.BAD_REQUEST, "JWT_001", "JWT 토큰 값이 유효하지 않습니다."),
+    JWT_TOKEN_IS_EMPTY(HttpStatus.BAD_REQUEST, "JWT_002", "JWT 토큰 값이 비어있습니다.")
     ;
 
 
