@@ -1,7 +1,8 @@
 package com.aetheriadm.jwt.interfaces;
 
-import com.aetheriadm.jwt.domain.AuthUser;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthController {
 
     @GetMapping
-    public ResponseEntity<?> check(@AuthUser Long runnerId) {
-        return ResponseEntity.ok(runnerId);
+    public ResponseEntity<?> check(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(userDetails);
     }
 }
