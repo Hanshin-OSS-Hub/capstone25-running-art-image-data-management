@@ -23,21 +23,16 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
-    // private final JwtTokenResolverPort jwtTokenResolverPort; // 제거
-    private final JwtParser parser; // JwtParser를 직접 주입받음
+    private final JwtTokenResolver jwtTokenResolver;
     private final String AUTHORIZATION_HEADER = HttpHeaders.AUTHORIZATION;
     private final String BEARER_PREFIX;
 
-    /**
-     * JwtKeyManager에서 서명 키가 설정된 JwtParser 인스턴스를 주입받습니다.
-     *
-     * @param jwtKeyManager JWT 서명 키와 파서를 관리하는 컴포넌트
-     */
+
     public AuthUserArgumentResolver(
-            JWTProperties jwtProperties,
-            JwtKeyManager jwtKeyManager) {
+            JwtTokenResolver jwtTokenResolver,
+            JWTProperties jwtProperties) {
+        this.jwtTokenResolver = jwtTokenResolver;
         this.BEARER_PREFIX = jwtProperties.bearerHeader();
-        this.parser = jwtKeyManager.getParser();
     }
 
     /**
@@ -67,10 +62,10 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String accessToken = extractToken(request);
 
-        // 1. 토큰 파싱
-        String subject = claims(accessToken).getSubject();
+        // 토큰 파싱
+        String subject = jwtTokenResolver.claims(accessToken).getSubject();
 
-        // 2. Subject를 Long으로 변환
+        // Subject를 Long으로 변환
         try {
             return Long.valueOf(subject);
         } catch (NumberFormatException e) {
@@ -96,23 +91,5 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         // 토큰이 없는 경우 null을 반환합니다.
         // claims() 메서드에서 null 체크를 수행합니다.
         return null;
-    }
-
-    /**
-     * 주어진 JWT 토큰을 파싱하고 서명을 검증하여 {@link Claims}(페이로드)를 추출합니다.
-     *
-     * @param token 파싱할 JWT 토큰 문자열입니다.
-     * @return 토큰의 페이로드 정보를 담고 있는 {@code Claims} 객체입니다.
-     * @throws BusinessException 토큰 문자열이 {@code null}이거나 비어있을 경우 {@code JWT_TOKEN_IS_EMPTY} 예외를 발생시킵니다.
-     */
-    private Claims claims(String token) {
-        if (token == null || token.isBlank()) {
-            throw new BusinessException(
-                    ErrorMessage.JWT_TOKEN_IS_EMPTY,
-                    "JWT 토큰이 비어있습니다."
-            );
-        }
-        // parser를 사용하여 토큰을 해독하고 서명 검증을 수행
-        return parser.parseClaimsJws(token).getBody();
     }
 }

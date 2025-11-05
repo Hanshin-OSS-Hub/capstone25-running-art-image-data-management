@@ -4,7 +4,6 @@ import com.aetheriadm.common.exception.BusinessException;
 import com.aetheriadm.common.exception.dto.ErrorMessage;
 import com.aetheriadm.config.properties.JWTProperties;
 import io.jsonwebtoken.JwtParser;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.Getter;
@@ -17,8 +16,6 @@ import javax.crypto.SecretKey;
 public class JwtKeyManager {
     /** JWT 서명 및 유효성 검증에 사용되는 비밀 키입니다. */
     private final SecretKey key;
-    /** JWT를 파싱하고 유효성을 검사하는 데 사용되는 파서입니다. */
-    private final JwtParser parser;
 
     /**
      * {@code JwtKeyManager}의 생성자입니다.
@@ -52,11 +49,5 @@ public class JwtKeyManager {
 
         // HMAC SHA 키 생성
         this.key = Keys.hmacShaKeyFor(keyBytes);
-
-        // JwtParser 초기화 및 설정 (서명 키 및 허용 오차 시간 설정)
-        this.parser = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .setAllowedClockSkewSeconds(jwtProperties.allowedClockSkewSeconds())
-                .build();
     }
 }

@@ -3,7 +3,9 @@ package com.aetheriadm.jwt.application;
 import com.aetheriadm.common.exception.BusinessException;
 import com.aetheriadm.common.exception.dto.ErrorMessage;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtParser;
+import io.jsonwebtoken.Jwts;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -12,6 +14,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +23,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class JwtTokenResolver{
-    private final JwtParser parser;
+    private final SecretKey KEY;
 
     /**
      * {@code JwtTokenResolver}의 생성자입니다.
@@ -29,7 +32,7 @@ public class JwtTokenResolver{
      */
     public JwtTokenResolver(JwtKeyManager jwtKeyManager) {
         // 미리 서명 키가 설정된 JwtParser 인스턴스를 주입받습니다.
-        this.parser = jwtKeyManager.getParser();
+        this.KEY = jwtKeyManager.getKey();
     }
 
     public Authentication getAuthentication(String token) {
@@ -91,14 +94,17 @@ public class JwtTokenResolver{
      * @throws BusinessException 토큰 문자열이 {@code null}이거나 비어있을 경우 {@code JWT_TOKEN_IS_EMPTY} 예외를 발생시킵니다.
      * 파싱 및 서명 검증 실패 시, JWT 라이브러리 예외({@code JwtException})가 발생할 수 있습니다.
      */
-    private Claims claims(String token) {
+    public Claims claims(String token) {
         if (token == null || token.isBlank()) {
             throw new BusinessException(
                     ErrorMessage.JWT_TOKEN_IS_EMPTY,
                     "JWT 토큰이 비어있습니다."
             );
         }
-        // parser를 사용하여 토큰을 해독하고 서명 검증을 수행
-        return parser.parseClaimsJws(token).getBody();
+        return Jwts.parser()
+                .verifyWith(KEY)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
     }
 }

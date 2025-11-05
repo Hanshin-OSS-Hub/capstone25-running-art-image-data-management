@@ -1,7 +1,7 @@
 package com.aetheriadm.jwt.application;
 
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -10,6 +10,7 @@ import javax.crypto.SecretKey;
  * 이 클래스는 주어진 토큰의 서명(Signature)을 확인하고 구조적 유효성을 검사하여,
  * 토큰이 변조되지 않았고 만료되지 않았는지 등을 판단합니다.
  */
+@Slf4j
 @Component
 public class JwtTokenValidator {
     private final SecretKey KEY;
@@ -35,14 +36,26 @@ public class JwtTokenValidator {
     public boolean validateToken(String token) {
         try {
             // Jwts.parserBuilder()를 사용하여 서명 키를 설정하고 토큰을 파싱 및 검증합니다.
-            Jwts.parserBuilder().setSigningKey(KEY).build().parseClaimsJws(token);
+            Jws<Claims> jwsClaims = Jwts.parser()
+                    .verifyWith(KEY)
+                    .build()
+                    .parseSignedClaims(token);
+            Claims claims = jwsClaims.getPayload(); // .getBody() 대신 .getPayload() 사용
             // 예외 없이 완료되면 유효한 토큰입니다.
             return true;
-        } catch (JwtException | IllegalArgumentException e) {
-            // JwtException: 서명 오류, 만료(ExpiredJwtException), 구조적 오류 등
-            // IllegalArgumentException: 토큰 문자열이 null이거나 비어있을 때
-            // 토큰 유효성 검증 실패 시 예외를 무시하고 false 반환
-            return false;
+        } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
+            // 유효하지 않은 JWT 서명
+            log.info("잘못된 JWT 서명입니다.", e);
+        } catch (ExpiredJwtException e) {
+            // 만료된 JWT 토큰
+            log.info("만료된 JWT 토큰입니다.", e);
+        } catch (UnsupportedJwtException e) {
+            // 지원되지 않는 JWT 토큰
+            log.info("지원되지 않는 JWT 토큰입니다.", e);
+        } catch (IllegalArgumentException e) {
+            // JWT 토큰이 잘못되었습니다 (문자열이 null이거나 비어있을 때)
+            log.info("JWT 토큰이 잘못되었습니다.", e);
         }
+        return false;
     }
 }
